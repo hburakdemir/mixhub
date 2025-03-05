@@ -1,0 +1,142 @@
+
+body {
+  margin: 0;
+  padding: 0;
+}
+.login-signin-container {
+    background-color: white; /* Sayfa arka planı */
+    font-family: 'Segoe UI',sans-serif ;
+    color: rgb(255, 255, 255); /* Yazı rengi */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column; /* İçeriği dikeyde hizala */
+    width: 50%;
+    position: absolute;
+    right: 0;
+    background-image: url('/public/images/register_bg2.jpg');
+    background-size: cover;
+    background-position: center;
+    top: 0;
+  }
+  
+  .login-signin-container h2 {
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+    margin-bottom: 25px;
+   
+  }
+  
+  /* Form kutusu */
+  #login-form {
+    background-color: rgb(255, 255, 255); 
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .login-input-group {
+    margin-bottom: 20px;
+  }
+  
+  .login-input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  
+  .login-input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #000000;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Button */
+  #login-submit-button {
+    width: 80%;
+    padding: 8px;
+    background-color: #3210ad;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Segoe UI',sans-serif ;
+    margin-left: 35px;
+   
+  }
+  
+  #login-submit-button:hover {
+    background-color: #5f6d97;
+  }
+
+
+  
+  #login-username-box,
+  #login-password-box,
+  #login-password-label,
+  #login-username-label{
+    text-align: center;
+    color: rgb(0, 0, 0);
+  }
+  
+
+  #kayıt-ol {
+    color: rgb(0, 0, 0);
+    text-align: center;
+    cursor: pointer;
+    margin-top: 30px;
+    border: 1px solid black;
+    padding: 5px 10px;
+    
+    margin: 30px auto ;
+    width: 30%;
+  }
+
+  .left-container {
+    background-color: #000000; 
+    width: 50%; 
+    height: 100vh;
+    color:white;
+    text-decoration: double;
+    
+  }
+
+  .left-baslik {
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+   padding-top: 1in;
+   }
+  
+  .left-altbaslik{
+    padding-top: 2.5in;
+    text-align: right;
+    margin-right: 1in;
+  }
+  .left-text {
+    margin-left: 1in;
+    padding-top: 2.5in;
+    
+  }
+
+  .non-register{
+    color: black;
+    text-align: center;
+    font-size: 10px;
+   cursor: pointer;
+    margin: -20px auto;
+  }
+  
+   
+  
+  
+ 
+
+
+  
