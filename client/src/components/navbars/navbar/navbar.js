@@ -10,7 +10,7 @@ export default function Navbar() {
   return (
     <nav className='navbar'>
       <div className="navbar-left">
-        <h1 className='logo' onClick={() => navigate('/anasayfa')}>MixHub</h1>
+        <h1 className='logo' onClick={() => navigate('/anasayfa')}>HüNot</h1>
       </div>
 
       <div className="navbar-center">

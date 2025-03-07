@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { FaRegComment, FaRegHeart, FaRegShareSquare } from 'react-icons/fa';
-import CreatePostButton from '../../../components/CreatePostButton/CreatePostButton';
-import RightSidebar from '../../../components/RightSidebar/RightSidebar';
-import './home.css';
+import CreatePostButton from '../../components/CreatePostButton/CreatePostButton';
+import './Hukuk.css';
 
-export default function Home() {
+export default function HukukView() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/posts');
+        const response = await fetch('http://localhost:5000/api/posts?department=Hukuk');
         if (!response.ok) {
           throw new Error('Veri çekme hatası');
         }
@@ -43,15 +42,9 @@ export default function Home() {
   }
 
   return (
-    <div className="home-container">
-      {/* Sol taraf - Leftbar bileşeni zaten var */}
-      <div></div>
-
-      {/* Sol boşluk */}
-      <div className="left-space"></div>
-
-      {/* Orta kısım - Gönderiler */}
+    <div className="department-container">
       <div className="posts-section">
+        <h1 className="department-title">Hukuk Fakültesi</h1>
         {posts.length === 0 ? (
           <div className="no-posts">Henüz gönderi bulunmuyor.</div>
         ) : (
@@ -92,14 +85,7 @@ export default function Home() {
           ))
         )}
       </div>
-
-      {/* Sağ boşluk */}
-      <div className="right-space"></div>
-
-      {/* Sağ kısım - RightSidebar bileşeni */}
-      <RightSidebar />
-
       <CreatePostButton />
     </div>
   );
-}
+} 

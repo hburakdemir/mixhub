@@ -1,84 +1,145 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './leftbar.css'
-import { useNavigate } from 'react-router-dom'
-import { FaFilter } from 'react-icons/fa'
+import { FaSort, FaSortAlphaDown, FaClock, FaChartLine, FaChevronDown, FaGraduationCap, FaHospital, FaIndustry } from 'react-icons/fa'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 
 export default function Leftbar() {
   const navigate = useNavigate();
-  const [topics, setTopics] = useState([]);
-  const [showFilter, setShowFilter] = useState(false);
-  const [sortBy, setSortBy] = useState('newest'); // 'newest' veya 'popular'
+  const location = useLocation();
+  const [selectedSort, setSelectedSort] = useState('alphabetic');
+  const [expandedCampus, setExpandedCampus] = useState(null);
+  const [openMenus, setOpenMenus] = useState({
+    beytepe: false,
+    sihhiye: false,
+    osb: false
+  });
 
-  // Backend'den veri çekme
-  useEffect(() => {
-    const fetchTopics = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/api/topics?sortBy=${sortBy}`);
-        if (!response.ok) {
-          throw new Error('Veri çekme hatası');
-        }
-        const data = await response.json();
-        setTopics(data);
-      } catch (error) {
-        console.error("Veri çekme hatası:", error);
-      }
-    };
-
-    fetchTopics();
-  }, [sortBy]);
-
-  const handleClick = (topicId) => {
-    navigate(`/konu${topicId}`);
+  const campusData = {
+    beytepe: {
+      name: 'Beytepe',
+      departments: [
+        { name: 'Edebiyat', path: '/edebiyat' },
+        { name: 'Eğitim', path: '/egitim' },
+        { name: 'Fen', path: '/fen' },
+        { name: 'Güzel Sanatlar', path: '/güzel-sanatlar' },
+        { name: 'Hukuk', path: '/hukuk' },
+        { name: 'İktisadi ve İdari Bilimler', path: '/iibf' },
+        { name: 'İletişim', path: '/iletişim' },
+        { name: 'Konservatuvar', path: '/konservatuvar' },
+        { name: 'Mimarlık', path: '/mimarlik' },
+        { name: 'Mühendislik', path: '/mühendislik' },
+        { name: 'Spor Bilimleri', path: '/spor-bilimleri' }
+      ]
+    },
+    sihhiye: {
+      name: 'Sıhhiye',
+      departments: [
+        { name: 'Diş Hekimliği', path: '/diş-hekimliği' },
+        { name: 'Eczacılık', path: '/eczacılık' },
+        { name: 'Fizik Tedavi', path: '/fizik-tedavi' },
+        { name: 'Hemşirelik', path: '/hemşirelik' },
+        { name: 'Sağlık Bilimleri', path: '/sağlık-bilimleri' },
+        { name: 'Tıp', path: '/tıp' }
+      ]
+    },
+    osb: {
+      name: 'OSB',
+      departments: [
+        { name: 'Alternatif Enerji', path: '/alternatif-enerji' },
+        { name: 'Elektrik', path: '/elektrik' },
+        { name: 'Endüstri Ürünleri', path: '/endüstri-ürünleri' },
+        { name: 'Makine', path: '/makine' }
+      ]
+    }
   };
 
-  const toggleFilter = () => {
-    setShowFilter(!showFilter);
+  const handleCampusClick = (campus) => {
+    setExpandedCampus(expandedCampus === campus ? null : campus);
   };
 
   const handleSortChange = (sortType) => {
-    setSortBy(sortType);
-    setShowFilter(false);
+    setSelectedSort(sortType);
   };
 
+  const handleDepartmentClick = (path) => {
+    navigate(path);
+  };
+
+  const getSortedDepartments = (departments) => {
+    switch (selectedSort) {
+      case 'alphabetic':
+        return [...departments].sort((a, b) => a.name.localeCompare(b.name));
+      // Diğer sıralama seçenekleri için gerekli fonksiyonlar eklenebilir
+      default:
+        return departments;
+    }
+  };
+
+  const toggleMenu = (menu) => {
+    setOpenMenus(prev => ({
+      ...prev,
+      [menu]: !prev[menu]
+    }));
+  };
+
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <div className="leftbar-container">
-      <div className="leftbar-content">
-        <div className="leftbar-title">
-          <p>Başlıklar</p>
-          <div className="filter-container">
-            <p className='sorting'>Sıralama Ölçütü</p>
-            <FaFilter className="filter-icon" onClick={toggleFilter} />
-            {showFilter && (
-              <div className="filter-dropdown">
-                <div 
-                  className={`filter-option ${sortBy === 'newest' ? 'active' : ''}`}
-                  onClick={() => handleSortChange('newest')}
-                >
-                  En Yeni
-                </div>
-                <div 
-                  className={`filter-option ${sortBy === 'popular' ? 'active' : ''}`}
-                  onClick={() => handleSortChange('popular')}
-                >
-                  En Popüler
-                </div>
+    <div className="leftbar">
+      <div className="sort-section">
+        <h3>Sıralama</h3>
+        <div className="sort-options">
+          <button 
+            className={`sort-button ${selectedSort === 'alphabetic' ? 'active' : ''}`}
+            onClick={() => handleSortChange('alphabetic')}
+          >
+            <FaSortAlphaDown /> Alfabetik
+          </button>
+          <button 
+            className={`sort-button ${selectedSort === 'recent' ? 'active' : ''}`}
+            onClick={() => handleSortChange('recent')}
+          >
+            <FaClock /> Son Güncellenen
+          </button>
+          <button 
+            className={`sort-button ${selectedSort === 'popular' ? 'active' : ''}`}
+            onClick={() => handleSortChange('popular')}
+          >
+            <FaChartLine /> En Çok Yüklenen
+          </button>
+        </div>
+      </div>
+
+      <div className="campus-section">
+        <h3>Kampüsler</h3>
+        {Object.entries(campusData).map(([key, campus]) => (
+          <div key={key} className="campus-container">
+            <div 
+              className={`campus-header ${expandedCampus === key ? 'expanded' : ''}`}
+              onClick={() => handleCampusClick(key)}
+            >
+              <span>{campus.name}</span>
+              <FaSort className="expand-icon" />
+            </div>
+            {expandedCampus === key && (
+              <div className="departments-list">
+                {getSortedDepartments(campus.departments).map((department, index) => (
+                  <div 
+                    key={index} 
+                    className="department-item"
+                    onClick={() => handleDepartmentClick(department.path)}
+                  >
+                    {department.name}
+                  </div>
+                ))}
               </div>
             )}
           </div>
-        </div>
-        
-        {topics.map((topic) => (
-          <div 
-            key={topic.id}
-            className="menu-item"
-            onClick={() => handleClick(topic.id)}
-          >
-            <span className="topic-title">{topic.title}</span>
-            <span className="topic-count">{topic.count}</span>
-          </div>
         ))}
       </div>
-      <div className="right-border"></div>
+
+      
+        
     </div>
   )
 } 
